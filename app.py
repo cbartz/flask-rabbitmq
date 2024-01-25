@@ -1,7 +1,7 @@
 import json
 
 import pika
-from flask import request, Flask
+from flask import request, Flask, jsonify
 
 HOST='host'
 VIRTUAL_HOST='vhost'
@@ -9,6 +9,12 @@ USER="user"
 PASSWORD="password"
 
 app = Flask(__name__)
+
+app.config.from_prefixed_env()
+
+@app.route("/")
+def hello():
+    return jsonify(app.config["RABBITMQ_URIS"])
 
 
 @app.route('/post', methods=['POST'])
